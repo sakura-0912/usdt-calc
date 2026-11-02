@@ -1,5 +1,5 @@
 /* 卡片购汇计算器 · 离线缓存 */
-const CACHE = "usdt-calc-v1";
+const CACHE = "usdt-calc-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -13,7 +13,13 @@ const ASSETS = [
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE)
-      .then((c) => Promise.allSettled(ASSETS.map((a) => c.add(a))))
+      .then((c) => Promise.allSettled(
+        ASSETS.map((a) =>
+          fetch(new Request(a, { cache: "reload" }))
+            .then((r) => (r && r.ok ? c.put(a, r) : null))
+            .catch(() => null)
+        )
+      ))
       .then(() => self.skipWaiting())
   );
 });

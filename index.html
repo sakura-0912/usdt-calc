@@ -229,7 +229,7 @@
 
     var eff = (hasP && hasR) ? p / r : null;              // 有效汇率 CNY / USD
     var y = (hasX && hasP && hasR) ? x * p / r : null;    // 实付人民币
-    var face = (hasX && hasR) ? x / r : null;             // 需购卡面额 USD
+    var face = (hasX && hasR) ? x / r : null;             // 需购买 USDT 数量
 
     // 溢价差：有折算率时用有效汇率，没有折算率时直接用 USDT 单价对真实汇率
     var prem = null, premPct = null, premBase = null;
@@ -261,7 +261,7 @@
     $err.textContent = "";
 
     var parts = [];
-    if (res.face !== null) parts.push("需购买卡面额 <b>" + fmt(res.face, 2) + " USD</b>");
+    if (res.face !== null) parts.push("需购买 <b>" + fmt(res.face, 2) + " USDT</b>");
     if (res.eff !== null) parts.push("有效汇率 <b>" + fmt(res.eff, 4) + " CNY → USD</b>");
     if (res.prem !== null) {
       var up = res.prem >= 0;
@@ -329,7 +329,7 @@
     var bits = [];
     if (last.y !== null) {
       bits.push("目标 " + fmt(last.x, 2) + " USD → 实付 ¥" + fmt(last.y, 2) +
-        "（卡面额 " + fmt(last.face, 2) + " USD）");
+        "（需购买 " + fmt(last.face, 2) + " USDT）");
     } else if (last.hasX) {
       bits.push("目标 " + fmt(last.x, 2) + " USD");
     }
